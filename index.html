@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Daakshii ❤️ — One Last Chance</title>
+<meta name="description" content="A cinematic proposal for Daakshii">
+
+<!-- Google Fonts: a serious display serif for the emotional beats, a soft humanist sans for everything else -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Italiana&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ CANVAS LAYERS (night sky / particles / cursor) ============ -->
+<canvas id="sky-canvas"></canvas>
+<canvas id="particle-canvas"></canvas>
+<canvas id="cursor-canvas"></canvas>
+
+<!-- ============ AMBIENT GLOW BLOBS ============ -->
+<div class="glow glow-a" aria-hidden="true"></div>
+<div class="glow glow-b" aria-hidden="true"></div>
+
+<!-- ============ ENTRY OVERLAY (click to begin — needed to unlock audio) ============ -->
+<div id="entry-overlay">
+  <div class="entry-inner">
+    <p class="entry-eyebrow">a small universe, for one person</p>
+    <h1 class="entry-title">Daakshii</h1>
+    <button id="entry-btn" class="btn-ghost">
+      <span>Open</span>
+    </button>
+  </div>
+</div>
+
+<!-- ============ AUDIO PLAYER ============ -->
+<audio id="bg-music" src="assets/music/music.mp3" loop preload="auto"></audio>
+<div id="music-player" class="glass" aria-hidden="true">
+  <button id="music-toggle" aria-label="Play music">
+    <svg id="icon-play" viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="icon-pause" viewBox="0 0 24 24" width="16" height="16" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+  <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.35" aria-label="Volume">
+</div>
+
+<!-- ============ TOAST CONTAINER ============ -->
+<div id="toast-container" aria-live="polite"></div>
+
+<!-- ============ MAIN STAGE ============ -->
+<main id="stage">
+
+  <!-- ---- SECTION 1 : PROPOSAL CARD ---- -->
+  <section id="proposal-section" class="section">
+    <div class="card glass proposal-card">
+      <p class="eyebrow">for the one who almost gave up on us</p>
+      <h1 class="name-title">Daakshii <span class="heart">❤️</span></h1>
+      <h2 class="question-title">One Last Chance? <span>🥺</span></h2>
+
+      <!-- Live relationship timer -->
+      <div id="timer" class="timer" role="group" aria-label="Time together">
+        <div class="timer-unit"><span class="timer-value" id="t-years">0</span><span class="timer-label">Years</span></div>
+        <div class="timer-unit"><span class="timer-value" id="t-months">0</span><span class="timer-label">Months</span></div>
+        <div class="timer-unit"><span class="timer-value" id="t-days">0</span><span class="timer-label">Days</span></div>
+        <div class="timer-unit"><span class="timer-value" id="t-hours">00</span><span class="timer-label">Hours</span></div>
+        <div class="timer-unit"><span class="timer-value" id="t-mins">00</span><span class="timer-label">Minutes</span></div>
+        <div class="timer-unit"><span class="timer-value" id="t-secs">00</span><span class="timer-label">Seconds</span></div>
+      </div>
+
+      <div class="btn-row">
+        <button id="yes-btn" class="btn-yes">YES ❤️</button>
+        <button id="no-btn" class="btn-no">NO 💔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- SECTION 2 : POST-YES TYPEWRITER LETTER (hidden until YES) ---- -->
+  <section id="letter-section" class="section hidden">
+    <div class="card glass letter-card">
+      <p id="typewriter" class="typewriter" aria-live="polite"></p>
+      <button id="forever-btn" class="btn-glow hidden">Start Our Forever ❤️</button>
+    </div>
+  </section>
+
+  <!-- ---- SECTION 3 : FOREVER STARTS AGAIN (hidden) ---- -->
+  <section id="forever-section" class="section hidden">
+    <div class="forever-content">
+      <h2 class="forever-title">Forever Starts Again <span>❤️</span></h2>
+      <p class="forever-sub">I promise to spend the rest of my life proving that choosing you was the best decision I ever made.</p>
+    </div>
+  </section>
+
+  <!-- ---- SECTION 4 : LOVE LETTERS ---- -->
+  <section id="letters-section" class="section">
+    <h3 class="section-heading">Three Letters, Kept for You</h3>
+    <div class="envelopes">
+
+      <div class="envelope" data-letter="1" tabindex="0" role="button" aria-expanded="false" aria-label="Open letter one">
+        <div class="envelope-flap"></div>
+        <div class="envelope-body"><span class="envelope-seal">01</span></div>
+        <div class="letter-paper">
+          <p>To Daakshii —</p>
+          <p>Every love story has a chapter where two people almost stop writing it. Ours had one too. But I never stopped thinking about the version of us that gets to grow old, silly, and soft together. That's the version I'm choosing, every single day from here.</p>
+        </div>
+      </div>
+
+      <div class="envelope" data-letter="2" tabindex="0" role="button" aria-expanded="false" aria-label="Open letter two">
+        <div class="envelope-flap"></div>
+        <div class="envelope-body"><span class="envelope-seal">02</span></div>
+        <div class="letter-paper">
+          <p>To Daakshii —</p>
+          <p>Daakshii, 🤍
+
+Pehle mujhe lagta tha ki "I love you" keh dena hi pyaar hota hai.
+
+Lekin tumne mujhe sikhaya ki pyaar sirf words nahi hota. Pyaar respect hota hai. Patience hota hai. Trust hota hai. Aur sabse zyada... actions hote hain.
+
+Main maanta hoon ki main wahi actions hamesha nahi dikha paaya jinke tum haqdar thi. Aur us baat ka mujhe sach me afsos hai.
+
+Ab main tumse promises nahi karna chahta. Main bas itna chahta hoon ki ek din tum khud meri efforts dekhkar keh sako...
+
+"Haan... ye wahi Aryan hai jo sach me badal gaya."
+
+Us din se zyada khoobsurat mere liye kuch nahi hoga. 🌹</p>
+        </div>
+      </div>
+
+      <div class="envelope" data-letter="3" tabindex="0" role="button" aria-expanded="false" aria-label="Open letter three">
+        <div class="envelope-flap"></div>
+        <div class="envelope-body"><span class="envelope-seal">03</span></div>
+        <div class="letter-paper">
+          <p>To Daakshii —</p>
+          <p>Thank you for the chance you didn't have to give me. I know trust, once shaken, has to be rebuilt one small honest moment at a time — so that's what I'm here for. Not one grand gesture. A thousand small, unglamorous, faithful ones.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>Made with ❤️ — Today. Tomorrow. Always. ♾️</p>
+  </footer>
+
+</main>
+
+<!-- ============ FIREWORKS CANVAS (overlays everything during YES / Forever moments) ============ -->
+<canvas id="fx-canvas"></canvas>
+
+<script src="script.js"></script>
+</body>
+</html>
